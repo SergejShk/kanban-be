@@ -5,7 +5,7 @@ import { UsersDb } from '../database/usersDb';
 
 import { IError, UnauthorizedError } from '../errors/customErrors';
 
-import { IUser, JwtData } from '../interfaces/auth';
+import { GeneratedAuthTokens, IUser, JwtData } from '../interfaces/auth';
 
 export class AuthMiddlewares {
   constructor(private usersDb: UsersDb) {
@@ -20,7 +20,7 @@ export class AuthMiddlewares {
     try {
       const cookies = req.cookies;
 
-      if (!cookies && !cookies.accessToken)
+      if (!cookies && !(cookies as GeneratedAuthTokens)?.accessToken)
         throw new IError("Can't find access token");
 
       const token = cookies.accessToken;

@@ -70,7 +70,7 @@ export class AuthService {
     const { email } = body;
     const user = await this.usersDb.getUserByEmail(email);
 
-    if (user[0].password) {
+    if (user[0]?.password) {
       throw new DuplicateUserError('User already exists');
     }
 
@@ -114,7 +114,7 @@ export class AuthService {
 
     const [user] = await this.usersDb.getUserByEmail(email);
 
-    if (!user.password) {
+    if (!user?.password) {
       throw new InvalidParameterError('Email or password is wrong');
     }
 
