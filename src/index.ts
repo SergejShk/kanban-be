@@ -7,14 +7,17 @@ import App from './app';
 
 import { UsersDb } from './database/usersDb';
 import { WorkSpacesDb } from './database/workSpacesDb';
+import { BoardsDb } from './database/boardsDb';
 
 import { AuthService } from './services/authService';
 import { WorkSpacesService } from './services/workSpacesService';
+import { BoardsService } from './services/boardsService';
 
 import { AuthMiddlewares } from './middlewares/authMiddlewares';
 
 import { AuthController } from './controllers/AuthController';
 import { WorkSpaceController } from './controllers/WorkSpacesController';
+import { BoardsController } from './controllers/BoardsController';
 
 dotenv.config();
 
@@ -38,10 +41,12 @@ const serverStart = async () => {
     // dbs
     const usersDb = new UsersDb(db);
     const workspacesDb = new WorkSpacesDb(db);
+    const boardsDb = new BoardsDb(db);
 
     // services
     const authService = new AuthService(usersDb);
     const workspacesService = new WorkSpacesService(workspacesDb);
+    const boardsService = new BoardsService(boardsDb);
 
     // middlewares
     const authMiddlewares = new AuthMiddlewares(usersDb);
@@ -52,8 +57,16 @@ const serverStart = async () => {
       workspacesService,
       authMiddlewares
     );
+    const boardsController = new BoardsController(
+      boardsService,
+      authMiddlewares
+    );
 
-    const app = new App(PORT, [authController, workSpaceController]);
+    const app = new App(PORT, [
+      authController,
+      workSpaceController,
+      boardsController,
+    ]);
 
     app.listen();
   } catch (error: any) {
