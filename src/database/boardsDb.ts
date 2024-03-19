@@ -18,14 +18,14 @@ export class BoardsDb {
   public getById = async (id: number) =>
     this.db.select().from(boards).where(eq(boards.id, id));
 
-  public createWorkSpace = async (newBoard: NewBoard) =>
+  public createBoard = async (newBoard: NewBoard) =>
     this.db
       .insert(boards)
       .values(newBoard)
       .returning()
       .then(res => res[0]);
 
-  public updateWorkSpace = async (board: IUpdateBoard) =>
+  public updateBoard = async (board: IUpdateBoard) =>
     this.db
       .update(boards)
       .set({
@@ -35,6 +35,6 @@ export class BoardsDb {
       .returning()
       .then(res => res[0]);
 
-  public deleteWorkSpace = async (id: number) =>
+  public deleteBoard = async (id: number) =>
     this.db.delete(boards).where(eq(boards.id, id));
 }
