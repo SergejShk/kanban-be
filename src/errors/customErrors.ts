@@ -46,7 +46,7 @@ class UnauthorizedError extends CustomError {
   }
 }
 
-class DuplicateUserError extends CustomError {
+class DuplicateError extends CustomError {
   status: number;
 
   constructor(message: string) {
@@ -62,5 +62,5 @@ export {
   InvalidParameterError,
   RefreshTokenError,
   UnauthorizedError,
-  DuplicateUserError,
+  DuplicateError,
 };

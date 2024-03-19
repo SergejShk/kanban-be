@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { UsersDb } from '../database/usersDb';
 
 import {
-  DuplicateUserError,
+  DuplicateError,
   InvalidParameterError,
   RefreshTokenError,
 } from '../errors/customErrors';
@@ -71,7 +71,7 @@ export class AuthService {
     const user = await this.usersDb.getUserByEmail(email);
 
     if (user[0]?.password) {
-      throw new DuplicateUserError('User already exists');
+      throw new DuplicateError('User already exists');
     }
 
     if (user.length) {
