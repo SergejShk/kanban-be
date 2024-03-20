@@ -8,16 +8,19 @@ import App from './app';
 import { UsersDb } from './database/usersDb';
 import { WorkSpacesDb } from './database/workSpacesDb';
 import { BoardsDb } from './database/boardsDb';
+import { TasksDb } from './database/tasksDb';
 
 import { AuthService } from './services/authService';
 import { WorkSpacesService } from './services/workSpacesService';
 import { BoardsService } from './services/boardsService';
+import { TasksService } from './services/tasksService';
 
 import { AuthMiddlewares } from './middlewares/authMiddlewares';
 
 import { AuthController } from './controllers/AuthController';
 import { WorkSpaceController } from './controllers/WorkSpacesController';
 import { BoardsController } from './controllers/BoardsController';
+import { TasksController } from './controllers/TasksController';
 
 dotenv.config();
 
@@ -42,11 +45,13 @@ const serverStart = async () => {
     const usersDb = new UsersDb(db);
     const workspacesDb = new WorkSpacesDb(db);
     const boardsDb = new BoardsDb(db);
+    const tasksDb = new TasksDb(db);
 
     // services
     const authService = new AuthService(usersDb);
     const workspacesService = new WorkSpacesService(workspacesDb);
     const boardsService = new BoardsService(boardsDb);
+    const tasksService = new TasksService(tasksDb);
 
     // middlewares
     const authMiddlewares = new AuthMiddlewares(usersDb);
@@ -61,11 +66,13 @@ const serverStart = async () => {
       boardsService,
       authMiddlewares
     );
+    const tasksController = new TasksController(tasksService, authMiddlewares);
 
     const app = new App(PORT, [
       authController,
       workSpaceController,
       boardsController,
+      tasksController,
     ]);
 
     app.listen();

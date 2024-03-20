@@ -2,6 +2,7 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { asc, eq } from 'drizzle-orm';
 
 import boards, { NewBoard } from './models/boards';
+import tasks from './models/tasks';
 
 import { IUpdateBoard } from '../interfaces/boards';
 
@@ -12,6 +13,14 @@ export class BoardsDb {
     this.db
       .select()
       .from(boards)
+      .where(eq(boards.workSpaceId, workSpaceId))
+      .orderBy(asc(boards.createdAt));
+
+  public getListWithTasksByWorkSpace = async (workSpaceId: number) =>
+    this.db
+      .select()
+      .from(boards)
+      .leftJoin(tasks, eq(boards.id, tasks.boardId))
       .where(eq(boards.workSpaceId, workSpaceId))
       .orderBy(asc(boards.createdAt));
 
