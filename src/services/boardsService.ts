@@ -61,10 +61,17 @@ export class BoardsService {
   deleteByWorkSpace = async (workSpaceId: number) => {
     const boards = await this.boardsDb.getListWithTasksByWorkSpace(workSpaceId);
     if (boards.length > 0) {
-      const boardId = boards[0].boards.id;
+      const promises = [];
 
-      await this.tasksService.deleteTasksByBoardId(boardId);
-      await this.boardsDb.deleteBoardByWorkSpace(workSpaceId);
+      for (let i = 0; i < boards.length; i += 1) {
+        const boardId = boards[i].boards.id;
+        const promise = this.tasksService.deleteTasksByBoardId(boardId);
+        promises.push(promise);
+      }
+
+      await Promise.all(promises).then(
+        async () => await this.boardsDb.deleteBoardByWorkSpace(workSpaceId)
+      );
     }
   };
 }
