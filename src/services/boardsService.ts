@@ -2,6 +2,8 @@ import { BoardsDb } from '../database/boardsDb';
 
 import { DuplicateError, InvalidParameterError } from '../errors/customErrors';
 
+import { normalizeBoardsList } from '../utils/normalizeBoardsList';
+
 import { INewBoard, IUpdateBoard } from '../interfaces/boards';
 
 export class BoardsService {
@@ -11,8 +13,12 @@ export class BoardsService {
     this.boardsDb = boardsDb;
   }
 
-  getListByWorkSpace = (workSpaceId: number) => {
-    return this.boardsDb.getListByWorkSpace(workSpaceId);
+  getListByWorkSpace = async (workSpaceId: number) => {
+    const res = await this.boardsDb.getListWithTasksByWorkSpace(workSpaceId);
+    const normalizedBoards = normalizeBoardsList(res);
+
+    return normalizedBoards;
+    // return this.boardsDb.getListByWorkSpace(workSpaceId);
   };
 
   create = async (newBoard: INewBoard) => {

@@ -18,6 +18,7 @@ import {
   newBoardSchema,
   updateBoardSchema,
 } from '../dto/boards';
+import { INormalizedBoard } from '@/interfaces/boards';
 
 export class BoardsController extends Controller {
   boardsService: BoardsService;
@@ -77,7 +78,7 @@ export class BoardsController extends Controller {
 
   private getBoardsList: RequestHandler<
     { workSpaceId: number },
-    BaseResponse<Board[]>
+    BaseResponse<INormalizedBoard[]>
   > = async (req, res, next) => {
     try {
       const validatedBody = getListByWorkSpaceSchema.safeParse({
