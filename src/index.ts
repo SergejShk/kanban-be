@@ -64,6 +64,7 @@ const serverStart = async () => {
     );
     const boardsController = new BoardsController(
       boardsService,
+      tasksService,
       authMiddlewares
     );
     const tasksController = new TasksController(tasksService, authMiddlewares);

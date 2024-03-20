@@ -9,11 +9,6 @@ export class TasksService {
   }
 
   create = async (newTask: NewTask) => {
-    const existedTask = await this.tasksDb.getTaskByBoardId(newTask.boardId);
-    if (existedTask.length) {
-      return this.tasksDb.updateTasks(newTask);
-    }
-
     return this.tasksDb.createTask(newTask);
   };
 
