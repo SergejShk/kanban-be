@@ -16,4 +16,8 @@ export class TasksService {
 
     return this.tasksDb.createTask(newTask);
   };
+
+  updateTasks = (updTasks: NewTask) => {
+    return this.tasksDb.updateTasks(updTasks);
+  };
 }

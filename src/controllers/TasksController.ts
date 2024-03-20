@@ -33,6 +33,11 @@ export class TasksController extends Controller {
       this.authMiddlewares.isAuthorized,
       this.link({ route: this.createTask })
     );
+    this.router.put(
+      '/',
+      this.authMiddlewares.isAuthorized,
+      this.link({ route: this.updateTasks })
+    );
   }
 
   private createTask: RequestHandler<{}, BaseResponse<Task>> = async (
@@ -43,8 +48,20 @@ export class TasksController extends Controller {
     if (!validatedBody.success) {
       throw new InvalidParameterError('Bad request');
     }
-
     const updatedTasks = await this.tasksService.create(req.body);
+
+    return res.status(201).json(okResponse(updatedTasks));
+  };
+
+  private updateTasks: RequestHandler<{}, BaseResponse<Task>> = async (
+    req,
+    res
+  ) => {
+    const validatedBody = tasksSchema.safeParse(req.body);
+    if (!validatedBody.success) {
+      throw new InvalidParameterError('Bad request');
+    }
+    const updatedTasks = await this.tasksService.updateTasks(req.body);
 
     return res.status(201).json(okResponse(updatedTasks));
   };
