@@ -1,14 +1,18 @@
 import { WorkSpacesDb } from '../database/workSpacesDb';
 
+import { BoardsService } from './boardsService';
+
 import { DuplicateError, InvalidParameterError } from '../errors/customErrors';
 
 import { INewWorkSpace, IUpdateWorkSpace } from '../interfaces/workSpaces';
 
 export class WorkSpacesService {
   private workSpacesDb: WorkSpacesDb;
+  private boardsService: BoardsService;
 
-  constructor(workSpacesDb: WorkSpacesDb) {
+  constructor(workSpacesDb: WorkSpacesDb, boardsService: BoardsService) {
     this.workSpacesDb = workSpacesDb;
+    this.boardsService = boardsService;
   }
 
   getListByUserId = (userId: number) => {
@@ -49,6 +53,7 @@ export class WorkSpacesService {
       throw new InvalidParameterError(`Workspace with id ${id} not found`);
     }
 
+    await this.boardsService.deleteByWorkSpace(id);
     await this.workSpacesDb.deleteWorkSpace(id);
 
     return true;

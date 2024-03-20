@@ -2,10 +2,11 @@ import { BoardsDb } from '../database/boardsDb';
 
 import { DuplicateError, InvalidParameterError } from '../errors/customErrors';
 
+import { TasksService } from './tasksService';
+
 import { normalizeBoardsList } from '../utils/normalizeBoardsList';
 
 import { INewBoard, IUpdateBoard } from '../interfaces/boards';
-import { TasksService } from './tasksService';
 
 export class BoardsService {
   private boardsDb: BoardsDb;
@@ -55,5 +56,15 @@ export class BoardsService {
     await this.boardsDb.deleteBoard(id);
 
     return true;
+  };
+
+  deleteByWorkSpace = async (workSpaceId: number) => {
+    const boards = await this.boardsDb.getListWithTasksByWorkSpace(workSpaceId);
+    if (boards.length > 0) {
+      const boardId = boards[0].boards.id;
+
+      await this.tasksService.deleteTasksByBoardId(boardId);
+      await this.boardsDb.deleteBoardByWorkSpace(workSpaceId);
+    }
   };
 }

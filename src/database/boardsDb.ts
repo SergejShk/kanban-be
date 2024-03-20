@@ -46,4 +46,7 @@ export class BoardsDb {
 
   public deleteBoard = async (id: number) =>
     this.db.delete(boards).where(eq(boards.id, id));
+
+  public deleteBoardByWorkSpace = async (workSpaceId: number) =>
+    this.db.delete(boards).where(eq(boards.workSpaceId, workSpaceId));
 }

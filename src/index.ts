@@ -49,9 +49,12 @@ const serverStart = async () => {
 
     // services
     const authService = new AuthService(usersDb);
-    const workspacesService = new WorkSpacesService(workspacesDb);
     const tasksService = new TasksService(tasksDb);
     const boardsService = new BoardsService(boardsDb, tasksService);
+    const workspacesService = new WorkSpacesService(
+      workspacesDb,
+      boardsService
+    );
 
     // middlewares
     const authMiddlewares = new AuthMiddlewares(usersDb);
