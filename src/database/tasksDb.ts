@@ -27,4 +27,7 @@ export class TasksDb {
       .where(eq(tasks.boardId, updTasks.boardId))
       .returning()
       .then(res => res[0]);
+
+  public deleteByBoardId = async (boardId: number) =>
+    this.db.delete(tasks).where(eq(tasks.boardId, boardId));
 }

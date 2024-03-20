@@ -23,19 +23,13 @@ import { TasksService } from '@/services/tasksService';
 
 export class BoardsController extends Controller {
   boardsService: BoardsService;
-  tasksService: TasksService;
   authMiddlewares: AuthMiddlewares;
 
-  constructor(
-    boardsService: BoardsService,
-    tasksService: TasksService,
-    authMiddlewares: AuthMiddlewares
-  ) {
+  constructor(boardsService: BoardsService, authMiddlewares: AuthMiddlewares) {
     super('/boards');
 
     this.authMiddlewares = authMiddlewares;
     this.boardsService = boardsService;
-    this.tasksService = tasksService;
 
     this.initializeRoutes();
   }
@@ -76,7 +70,6 @@ export class BoardsController extends Controller {
       }
 
       const result = await this.boardsService.create(validatedBody.data);
-      await this.tasksService.create({ boardId: result.id, tasks: [] });
 
       return res.status(200).json(okResponse(result));
     } catch (e) {

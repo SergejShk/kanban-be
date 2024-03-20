@@ -15,4 +15,8 @@ export class TasksService {
   updateTasks = (updTasks: NewTask) => {
     return this.tasksDb.updateTasks(updTasks);
   };
+
+  deleteTasksByBoardId = (boardId: number) => {
+    return this.tasksDb.deleteByBoardId(boardId);
+  };
 }

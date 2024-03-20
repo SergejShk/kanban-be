@@ -50,8 +50,8 @@ const serverStart = async () => {
     // services
     const authService = new AuthService(usersDb);
     const workspacesService = new WorkSpacesService(workspacesDb);
-    const boardsService = new BoardsService(boardsDb);
     const tasksService = new TasksService(tasksDb);
+    const boardsService = new BoardsService(boardsDb, tasksService);
 
     // middlewares
     const authMiddlewares = new AuthMiddlewares(usersDb);
@@ -64,7 +64,6 @@ const serverStart = async () => {
     );
     const boardsController = new BoardsController(
       boardsService,
-      tasksService,
       authMiddlewares
     );
     const tasksController = new TasksController(tasksService, authMiddlewares);
