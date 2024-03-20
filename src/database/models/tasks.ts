@@ -1,20 +1,13 @@
-import {
-  pgTable,
-  serial,
-  varchar,
-  timestamp,
-  integer,
-} from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, jsonb } from 'drizzle-orm/pg-core';
 import { type InferSelectModel, type InferInsertModel } from 'drizzle-orm';
 
 import boards from './boards';
 
+import { ITask } from '../../interfaces/tasks';
+
 const tasks = pgTable('tasks', {
   id: serial('id').primaryKey().notNull(),
-  index: integer('index').notNull(),
-  name: varchar('name').notNull(),
-  description: varchar('description').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  tasks: jsonb('tasks').$type<ITask[]>().notNull(),
   boardId: integer('board_id')
     .references(() => boards.id)
     .notNull(),

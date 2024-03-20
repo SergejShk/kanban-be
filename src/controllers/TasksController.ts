@@ -10,7 +10,7 @@ import { BaseResponse, okResponse } from '../api/baseResponses';
 
 import { AuthMiddlewares } from '../middlewares/authMiddlewares';
 
-import { newTaskSchema } from '../dto/tasks';
+import { tasksSchema } from '../dto/tasks';
 
 import { InvalidParameterError } from '../errors/customErrors';
 
@@ -37,20 +37,15 @@ export class TasksController extends Controller {
 
   private createTask: RequestHandler<{}, BaseResponse<Task>> = async (
     req,
-    res,
-    next
+    res
   ) => {
-    try {
-      const validatedBody = newTaskSchema.safeParse(req.body);
-      if (!validatedBody.success) {
-        throw new InvalidParameterError('Bad request');
-      }
-
-      const result = await this.tasksService.create(validatedBody.data);
-
-      return res.status(200).json(okResponse(result));
-    } catch (e) {
-      next(e);
+    const validatedBody = tasksSchema.safeParse(req.body);
+    if (!validatedBody.success) {
+      throw new InvalidParameterError('Bad request');
     }
+
+    const updatedTasks = await this.tasksService.create(req.body);
+
+    return res.status(201).json(okResponse(updatedTasks));
   };
 }

@@ -10,7 +10,7 @@ export const normalizeBoardsList = (data: IBoardWithTasks[]) => {
     }
 
     if (tasks) {
-      acc[board.id].tasks.push(tasks);
+      acc[board.id].tasks.push(...tasks.tasks);
     }
     return acc;
   }, []);

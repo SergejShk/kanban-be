@@ -1,9 +1,6 @@
 CREATE TABLE IF NOT EXISTS "tasks" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"index" integer NOT NULL,
-	"name" varchar NOT NULL,
-	"description" varchar NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
+	"tasks" jsonb NOT NULL,
 	"board_id" integer NOT NULL
 );
 --> statement-breakpoint

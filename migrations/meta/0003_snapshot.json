@@ -1,5 +1,5 @@
 {
-  "id": "9eae235f-5a43-4b75-927b-29dfa11fe004",
+  "id": "6874788b-0d60-46b8-b5cf-7d2ca4348ab6",
   "prevId": "f08ba096-418b-4bb0-8800-3c1d5c7be495",
   "version": "5",
   "dialect": "pg",
@@ -63,30 +63,11 @@
           "primaryKey": true,
           "notNull": true
         },
-        "index": {
-          "name": "index",
-          "type": "integer",
+        "tasks": {
+          "name": "tasks",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
         },
         "board_id": {
           "name": "board_id",

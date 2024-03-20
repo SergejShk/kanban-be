@@ -1,6 +1,8 @@
 import { Board } from '../database/models/boards';
 import { Task } from '../database/models/tasks';
 
+import { ITask } from './tasks';
+
 export interface INewBoard {
   name: string;
   workSpaceId: number;
@@ -18,5 +20,5 @@ export interface IBoardWithTasks {
 }
 
 export interface INormalizedBoard extends Board {
-  tasks: Task[];
+  tasks: ITask[];
 }

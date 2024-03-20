@@ -18,7 +18,6 @@ export class BoardsService {
     const normalizedBoards = normalizeBoardsList(res);
 
     return normalizedBoards;
-    // return this.boardsDb.getListByWorkSpace(workSpaceId);
   };
 
   create = async (newBoard: INewBoard) => {

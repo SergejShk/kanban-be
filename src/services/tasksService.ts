@@ -1,8 +1,5 @@
+import { NewTask } from '../database/models/tasks';
 import { TasksDb } from '../database/tasksDb';
-
-import { DuplicateError } from '../errors/customErrors';
-
-import { INewTask } from '../interfaces/tasks';
 
 export class TasksService {
   private tasksDb: TasksDb;
@@ -11,16 +8,10 @@ export class TasksService {
     this.tasksDb = tasksDb;
   }
 
-  getListByBoard = (boardId: number) => {
-    return this.tasksDb.getListByBoard(boardId);
-  };
-
-  create = async (newTask: INewTask) => {
-    const tasks = await this.getListByBoard(newTask.boardId);
-    const existedBoard = tasks.find(task => task.name === newTask.name);
-
-    if (existedBoard) {
-      throw new DuplicateError('Task with the same title exists');
+  create = async (newTask: NewTask) => {
+    const existedTask = await this.tasksDb.getTaskByBoardId(newTask.boardId);
+    if (existedTask.length) {
+      return this.tasksDb.updateTasks(newTask);
     }
 
     return this.tasksDb.createTask(newTask);
