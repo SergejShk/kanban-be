@@ -1,5 +1,5 @@
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { asc, eq } from 'drizzle-orm';
+import { and, asc, eq, ilike } from 'drizzle-orm';
 
 import workSpaces, { NewWorkSpace } from './models/workSpaces';
 
@@ -8,12 +8,17 @@ import { IUpdateWorkSpace } from '../interfaces/workSpaces';
 export class WorkSpacesDb {
   constructor(private db: NodePgDatabase) {}
 
-  public getListByUser = async (userId: number) =>
-    this.db
+  public getListByUser = async (userId: number, query?: string) => {
+    const q = query ? query : '';
+
+    return this.db
       .select()
       .from(workSpaces)
-      .where(eq(workSpaces.userId, userId))
+      .where(
+        and(eq(workSpaces.userId, userId), ilike(workSpaces.name, `%${q}%`))
+      )
       .orderBy(asc(workSpaces.createdAt));
+  };
 
   public getById = async (id: number) =>
     this.db.select().from(workSpaces).where(eq(workSpaces.id, id));

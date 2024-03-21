@@ -15,8 +15,8 @@ export class WorkSpacesService {
     this.boardsService = boardsService;
   }
 
-  getListByUserId = (userId: number) => {
-    return this.workSpacesDb.getListByUser(userId);
+  getListByUserId = (userId: number, query: string) => {
+    return this.workSpacesDb.getListByUser(userId, query);
   };
 
   create = async (newWorkSpace: INewWorkSpace) => {

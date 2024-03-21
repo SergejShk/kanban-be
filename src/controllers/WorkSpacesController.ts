@@ -87,9 +87,14 @@ export class WorkSpaceController extends Controller {
   private getWorkSpacesList: RequestHandler<{}, BaseResponse<WorkSpace[]>> =
     async (req, res, next) => {
       try {
+        const query = (req.query.q as string) || '';
+
         //  @ts-ignore
         const user = req.user as IUser;
-        const result = await this.workSpacesService.getListByUserId(user.id);
+        const result = await this.workSpacesService.getListByUserId(
+          user.id,
+          query
+        );
 
         return res.status(200).json(okResponse(result));
       } catch (e) {
