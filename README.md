@@ -1,4 +1,4 @@
-# drug-store-be
+# kanban-be
 
 - Create .env file in the root of the project
 - Provide the command npm install
